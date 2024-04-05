@@ -5,7 +5,7 @@ const InputForm = ({
   value,
   setValue,
   type,
-  invalidFields=[],
+  invalidFields,
   keyPayload,
   setInvalidFields
 }) => {
@@ -15,7 +15,7 @@ const InputForm = ({
         {label}
       </label>
       <input
-        type="text"
+        type={type || "text"}
         id="phone"
         className="outline-none bg-[#e8f0fe] p-2 rounded-md w-full"
         value={value}
@@ -25,11 +25,11 @@ const InputForm = ({
         onFocus={() => setInvalidFields([])}
       />
       {invalidFields.length > 0 &&
-        invalidFields.some((i) => i.name === type) && (
+        invalidFields.some(i => i.name === type) && 
           <small className="text-red-500 italic">
             {invalidFields.find((i) => i.name === type)?.message}
           </small>
-        )}
+        }
     </div>
   );
 };

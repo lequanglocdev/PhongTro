@@ -3,31 +3,21 @@ import { InputForm, Button } from "../../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions";
-const Login = () => {
-  const location = useLocation();
+const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isRegister, setRegister] = useState(location.state?.flag);
   const [invalidFields, setInvalidFields] = useState([]);
   const [payload, setPayload] = useState({
     phone: "",
     password: "",
-   
+    name: "",
   });
-  useEffect(() => {
-    setRegister(location.state?.flag);
-  }, [location.state?.flag]);
-
-  // useEffect(() => {
-  //   isLogin && navigate("/");
-  // }, [isLogin]);
 
   const handleSubmit = async () => {
     let invalids = validate(payload);
     if (invalids) {
-      dispatch(actions.login(payload));
-      navigate('/')
+      dispatch(actions.register(payload));
     }
   };
 
@@ -81,10 +71,17 @@ const Login = () => {
 
   return (
     <div className="bg-white  w-[600px]  p-[10px] pb-[100px] rounded-md shadow-sm">
-      <h4 className="font-semibold text-2xl mb-3">
-       Đăng nhập
-      </h4>
+      <h4 className="font-semibold text-2xl mb-3">Đăng ký</h4>
       <div className="w-full flex flex-col gap-3">
+        <InputForm
+          label={"Họ Tên"}
+          value={payload.name}
+          setValue={setPayload}
+          type={"name"}
+          invalidFields={invalidFields}
+          setInvalidFields={setInvalidFields}
+        />
+
         <InputForm
           label={"Số điện thoại"}
           value={payload.phone}
@@ -102,7 +99,7 @@ const Login = () => {
           setInvalidFields={setInvalidFields}
         />
         <Button
-          text={isRegister ? "Đăng kí" : "Đăng nhập"}
+          text={"Đăng kí"}
           textColor="text-white"
           bgColor="bg-secondary1"
           fullWidth
@@ -110,25 +107,25 @@ const Login = () => {
         />
       </div>
       <div className="mt-7 flex items-center justify-between">
-        <small className="text-[blue] hover:text-[red] cursor-pointer">
-          Bạn quên mật khẩu
-        </small>
-        <small
-          onClick={() => {
-           navigate('/register')
-            setPayload({
-              phone: "",
-              password: "",
-              name: "",
-            });
-          }}
-          className="text-[blue] hover:text-[red] cursor-pointer"
-        >
-          Tạo tài khoản
+        <small>
+          Bạn đã có tài khoản?
+          <span
+            className="text-[blue] hover:text-[red] cursor-pointer"
+            onClick={() => {
+              navigate("/login");
+              setPayload({
+                phone: "",
+                password: "",
+                name: "",
+              });
+            }}
+          >
+            Đăng nhâp ngay
+          </span>
         </small>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;

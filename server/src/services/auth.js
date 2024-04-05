@@ -2,6 +2,7 @@ const db = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { v4 } = require("uuid");
+require('dotenv').config()
 const hashPassword = (password) =>
   bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 export const registerService = ({ phone, password, name }) =>
@@ -10,7 +11,7 @@ export const registerService = ({ phone, password, name }) =>
       const response = await db.User.findOrCreate({
         where: { phone },
         defaults: {
-          phone: phone,
+          phone,
           name,
           password: hashPassword(password),
           id: v4(),

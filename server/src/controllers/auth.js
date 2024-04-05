@@ -1,10 +1,4 @@
-// dấu âm là lỗi server
-// dấu dương  là lỗi client
 
-// import { json } from "sequelize";
-// import * as authService from "../services/auth";
-
-const { json } = require("sequelize");
 const authService = require("../services/auth");
 
 export const register = async (req, res) => {
